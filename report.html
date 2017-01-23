@@ -35180,18 +35180,7 @@ I used the Tensorflow BN implementation I used the source proposed on : <a href=
         <span class="c1"># Extra convolution to reduce size and </span>
         <span class="n">stem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">stem</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">depth</span><span class="o">=</span><span class="n">stem</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                            <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;head_out_conv&#39;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;VALID&#39;</span><span class="p">)</span>
-        <span class="sd">&quot;&quot;&quot;conv = tf.contrib.layers.convolution2d(inputs=x,</span>
-<span class="sd">            num_outputs = stem.get_shape()[-1].value, # 384</span>
-<span class="sd">            kernel_size = [3, 3], #[kernel_height, kernel_width]</span>
-<span class="sd">            stride = [2,2],</span>
-<span class="sd">            padding=&#39;VALID&#39;,</span>
-<span class="sd">            activation_fn=None,</span>
-<span class="sd">            normalizer_fn=tf.contrib.layers.batch_norm,</span>
-<span class="sd">            normalizer_params=None,</span>
-<span class="sd">            weights_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),</span>
-<span class="sd">            biases_initializer=tf.zeros_initializer,</span>
-<span class="sd">            trainable=True,</span>
-<span class="sd">            scope=&#39;stem_cnn&#39;) &quot;&quot;&quot;</span>
+
         <span class="n">out_stem</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">stem</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Layer out of stem flat shape:&#39;</span><span class="p">,</span> <span class="n">out_stem</span><span class="o">.</span><span class="n">get_shape</span><span class="p">())</span>
         <span class="n">full_layer</span> <span class="o">=</span> <span class="n">out_stem</span>
@@ -43054,8 +43043,16 @@ So, I followed the method suggested by Andrew Ng in his talk "Nuts and Bolts of 
 <li>log validation accuracy and training accuracy curves for each major changes in my approach</li>
 <li>use the those learning curves to assess whether the model has a high variance problem (over-fitting) or a low-variance problem (underfitting)</li>
 </ul>
-<p>Very early in the process my validation accurracy was not very high (around 91% test accuracy). I hoped identifying the challenging images from the validation dataset and possibly generate more training examples, without unbalancing the training dataset.
-Finally I tried a different architecture and obtained more satisfying results (around 96% test accuracy).</p>
+<p>Very early in the process my validation accurracy was not very high. I hoped identifying the challenging images from the validation dataset and possibly generate more training examples, without unbalancing the training dataset. I voluntarily not include the acc
+Augmenting the dataset led to a better the validation accuracy to around 97% with LeNet.
+I assume that this accurracy would not be high enough for a self-driving car.
+So, I decided to experiment with a recent successful model architecture and I chose to implement the "stem" part of Inception-v4 (2016) architecture from Google. <a href="https://arxiv.org/pdf/1602.07261v2.pdf">https://arxiv.org/pdf/1602.07261v2.pdf</a></p>
+<p>With this new architecture (my Inception) and obtained very satisfying results around 99.7% validation accuracy. Finally this model achieved a <strong>test accuracy of 97.6%</strong>.</p>
+<p>In a engineering program this result analysed in details in order to find which of the categories poses the biggest challenges.
+I started this analysis process by calculating a Confusion Matrix on the Test Dataset.
+We can note from from the Confusion Matrix that Neural Network does not perfom well on the "Pedestrian Signs".
+In fact, the Neural Net (my Inception) confuses it with "Animals crossing" !
+On a high note, Neural Net (my Inception) performs significantly better than my LeNet in all categories.</p>
 
 </div>
 </div>

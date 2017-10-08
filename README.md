@@ -4,7 +4,7 @@ Project forked from
 ### Overview
 
 In this project, I have used what I've learned about deep neural networks and convolutional neural networks to classify traffic signs.
-You trained a model so it can decode traffic signs from natural images by using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). 
+I trained a model so it can decode traffic signs from natural images by using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). 
 
 My results are documented in this python notebook [Traffic_Signs_Recognition.ipynb](Traffic_Signs_Recognition.ipynb).
 
